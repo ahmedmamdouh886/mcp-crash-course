@@ -11,4 +11,4 @@ async def get_weather(location: str) -> str:
     return "Hot as hell"
 
 if __name__ == "__main__":
-    mcp.run(transport="sse") # This is the sse transport, we use sse to communicate with the server, it's a server-to-client communication.
+    mcp.run(transport="sse") # This is the SSE transport, we will communicate with this MCP server(wather server) through SSE, it's a server-to-client communication.
