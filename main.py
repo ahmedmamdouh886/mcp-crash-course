@@ -20,6 +20,9 @@ load_dotenv()
 llm = ChatOllama(temperature=0, model="qwen3:8b")
 
 
+#### Note: The file main-updated-version.py is the up-to-date version of this code. ####
+
+
 stdio_server_params = StdioServerParameters(
     command = "python", # It means that the MCP server(math_server.py) we intend to run is implemented in Python.
     args = ["/Users/ahmedmamdouh/Desktop/ai-agents/udemy/mcp-crash-course/servers/math_server.py"], # The path to the MCP server we need to run.
