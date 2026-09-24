@@ -11,6 +11,8 @@ load_dotenv()
 llm = ChatOllama(temperature=0, model="qwen3:8b")
 
 
+#### Note: # You should run the server first before running this file: uv run servers/weather_server.py & uv run servers/math_server.py ####
+
 async def main():
     client = MultiServerMCPClient(
         {
