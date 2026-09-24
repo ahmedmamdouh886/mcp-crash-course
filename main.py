@@ -8,7 +8,7 @@ from langchain_core.messages import HumanMessage
 from langchain_mcp_adapters.tools import load_mcp_tools
 # from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
-# ClientSession is responsible for MCP server communication.
+# ClientSession is responsible for MCP server communication, every client connects to an MCP server via a session.
 # StdioServerParameters is a pydantic class which has the fields of commands and args which represent how to run the MCP server, 
 # so the client needs to know how to run the MCP server whether to run with Python, Nodejs, Docker and so on.
 from mcp import ClientSession, StdioServerParameters
@@ -25,7 +25,24 @@ stdio_server_params = StdioServerParameters(
 )
 
 async def main():
-    print("Hello from mcp-crash-course!")
+    async with stdio_client(stdio_server_params) as (read, write):
+        async with ClientSession(read_stream=read, write_stream=write) as session:
+            await session.initialize()
+           
+            print("session initialized")
+            
+            # load_mcp_tools is gonna Load all available MCP tools and convert them to LangChain tools.
+            tools = await load_mcp_tools(session)
+            
+            print(tools)
+
+            agent = create_agent(llm, tools)
+
+            result = await agent.ainvoke(
+                {"messages": [HumanMessage(content="What is 54 + 2 * 3?")]}
+            )
+
+            print(result["messages"][-1].content)
 
 
 if __name__ == "__main__":
